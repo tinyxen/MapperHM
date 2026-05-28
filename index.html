@@ -6,9 +6,11 @@
 
   <title>MapperHM</title>
 
-  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+  <link rel="stylesheet"
+  href="https://unpkg.com/leaflet/dist/leaflet.css"/>
 
   <style>
+
     html, body {
       margin: 0;
       padding: 0;
@@ -23,6 +25,64 @@
     .leaflet-control-attribution {
       display: none;
     }
+
+    /* Кнопка админки */
+
+    #adminBtn {
+      position: fixed;
+      top: 15px;
+      right: 15px;
+      z-index: 9999;
+
+      background: black;
+      color: white;
+
+      border: none;
+      border-radius: 8px;
+
+      padding: 10px 14px;
+
+      font-size: 16px;
+    }
+
+    /* Панель */
+
+    #adminPanel {
+      position: fixed;
+
+      top: 60px;
+      right: 15px;
+
+      width: 220px;
+
+      background: rgba(0,0,0,0.9);
+
+      color: white;
+
+      z-index: 9999;
+
+      border-radius: 12px;
+
+      padding: 15px;
+
+      display: none;
+    }
+
+    #adminPanel button {
+      width: 100%;
+
+      margin-top: 10px;
+
+      padding: 10px;
+
+      border: none;
+
+      border-radius: 8px;
+
+      background: red;
+      color: white;
+    }
+
   </style>
 </head>
 
@@ -30,7 +90,18 @@
 
 <div id="map"></div>
 
+<button id="adminBtn">⚙</button>
+
+<div id="adminPanel">
+
+  <h3>ADMIN</h3>
+
+  <button id="wipeBtn">WIPE MAP</button>
+
+</div>
+
 <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
 <script src="app.js"></script>
 
 </body>
