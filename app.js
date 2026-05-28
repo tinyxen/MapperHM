@@ -1,57 +1,83 @@
 // ======================
-// MapperHM - WORKING VERSION
+// MapperHM - GRID SYSTEM
 // ======================
 
-// Ханты-Мансийск центр
-const cityCenter = [61.0042, 69.0019];
+const map = L.map('map').setView([61.0042, 69.0019], 14);
 
-// карта
-const map = L.map('map').setView(cityCenter, 14);
-
-// тайлы
 L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
   attribution: ''
 }).addTo(map);
 
-// игрок
 let playerMarker = null;
+
+// настройки сетки
+const GRID_SIZE = 0.0015; // ~150м
+const RADIUS = 4;
+
+const cells = {};
+const owners = {};
+
+// ======================
+
+function getCell(lat, lng) {
+  const x = Math.floor(lat / GRID_SIZE);
+  const y = Math.floor(lng / GRID_SIZE);
+  return `${x}_${y}`;
+}
+
+// ======================
+// РИСУЕМ СЕТКУ ВОКРУГ ИГРОКА
+// ======================
+
+function renderGrid(lat, lng) {
+
+  Object.values(cells).forEach(c => map.removeLayer(c));
+  Object.keys(cells).forEach(k => delete cells[k]);
+
+  const cx = Math.floor(lat / GRID_SIZE);
+  const cy = Math.floor(lng / GRID_SIZE);
+
+  for (let x = -RADIUS; x <= RADIUS; x++) {
+    for (let y = -RADIUS; y <= RADIUS; y++) {
+
+      const lat1 = (cx + x) * GRID_SIZE;
+      const lng1 = (cy + y) * GRID_SIZE;
+
+      const id = `${cx + x}_${cy + y}`;
+
+      const color = owners[id] || "#666";
+
+      const rect = L.rectangle(
+        [[lat1, lng1], [lat1 + GRID_SIZE, lng1 + GRID_SIZE]],
+        {
+          color: color,
+          weight: 1,
+          fillOpacity: 0.08
+        }
+      ).addTo(map);
+
+      cells[id] = rect;
+    }
+  }
+}
 
 // ======================
 // GPS
 // ======================
 
-if (navigator.geolocation) {
+navigator.geolocation.watchPosition(pos => {
 
-  navigator.geolocation.watchPosition(
+  const lat = pos.coords.latitude;
+  const lng = pos.coords.longitude;
 
-    (pos) => {
+  if (!playerMarker) {
+    playerMarker = L.marker([lat, lng]).addTo(map);
+  } else {
+    playerMarker.setLatLng([lat, lng]);
+  }
 
-      const lat = pos.coords.latitude;
-      const lng = pos.coords.longitude;
+  map.setView([lat, lng], 17);
 
-      // создаём маркер
-      if (!playerMarker) {
-        playerMarker = L.marker([lat, lng]).addTo(map);
-      } else {
-        playerMarker.setLatLng([lat, lng]);
-      }
+  renderGrid(lat, lng);
 
-      // центрируем карту
-      map.setView([lat, lng], 16);
-
-    },
-
-    (err) => {
-      alert("GPS ошибка: " + err.message);
-    },
-
-    {
-      enableHighAccuracy: true,
-      timeout: 10000
-    }
-
-  );
-
-} else {
-  alert("GPS не поддерживается");
-}
+});
