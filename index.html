@@ -1,270 +1,58 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-
-  <meta charset="UTF-8" />
-
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  />
-
-  <title>MapperHM</title>
-
-  <link
-    rel="stylesheet"
-    href="https://unpkg.com/leaflet/dist/leaflet.css"
-  />
-
-  <style>
-
-    html, body {
-      margin: 0;
-      padding: 0;
-      height: 100%;
-      overflow: hidden;
-      font-family: Arial;
-    }
-
-    #map {
-      width: 100%;
-      height: 100vh;
-    }
-
-    .leaflet-control-attribution {
-      display: none;
-    }
-
-    /* ADMIN */
-
-    #adminBtn {
-
-      position: fixed;
-
-      top: 15px;
-      right: 15px;
-
-      z-index: 9999;
-
-      background: black;
-      color: white;
-
-      border: none;
-
-      padding: 10px 14px;
-
-      border-radius: 10px;
-
-      font-size: 18px;
-    }
-
-    #adminPanel {
-
-      position: fixed;
-
-      top: 60px;
-      right: 15px;
-
-      z-index: 9999;
-
-      width: 220px;
-
-      background: rgba(0,0,0,0.9);
-
-      color: white;
-
-      padding: 15px;
-
-      border-radius: 12px;
-
-      display: none;
-    }
-
-    #adminPanel button {
-
-      width: 100%;
-
-      margin-top: 10px;
-
-      border: none;
-
-      padding: 10px;
-
-      border-radius: 10px;
-
-      background: red;
-
-      color: white;
-
-      font-weight: bold;
-    }
-
-    /* PLAY */
-
-    #playBtn {
-
-      position: fixed;
-
-      bottom: 20px;
-      left: 20px;
-
-      z-index: 9999;
-
-      background: lime;
-
-      border: none;
-
-      padding: 14px 18px;
-
-      border-radius: 12px;
-
-      font-size: 18px;
-      font-weight: bold;
-    }
-
-    /* CLAN */
-
-    #clanLabel {
-
-      position: fixed;
-
-      bottom: 20px;
-      right: 20px;
-
-      z-index: 9999;
-
-      background: rgba(0,0,0,0.8);
-
-      color: lime;
-
-      padding: 10px 14px;
-
-      border-radius: 10px;
-
-      font-weight: bold;
-    }
-
-    /* LEADERBOARD */
-
-    #leaderboard {
-
-      position: fixed;
-
-      top: 70px;
-      left: 10px;
-
-      z-index: 9999;
-
-      width: 170px;
-
-      background: rgba(0,0,0,0.8);
-
-      color: white;
-
-      padding: 12px;
-
-      border-radius: 12px;
-    }
-
-    #leaderboard h3 {
-      margin-top: 0;
-      font-size: 16px;
-    }
-
-    /* SEARCH */
-
-    #searchInput {
-
-      position: fixed;
-
-      top: 15px;
-      left: 10px;
-
-      z-index: 9999;
-
-      width: 180px;
-
-      padding: 10px;
-
-      border: none;
-
-      border-radius: 10px;
-    }
-
-    #searchBtn {
-
-      position: fixed;
-
-      top: 15px;
-      left: 200px;
-
-      z-index: 9999;
-
-      padding: 10px 12px;
-
-      border: none;
-
-      border-radius: 10px;
-    }
-
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MapperHM</title>
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css">
+<link rel="stylesheet" href="style.css">
 
 </head>
-
 <body>
 
 <div id="map"></div>
 
-<!-- SEARCH -->
+<div id="searchContainer">
+<input id="searchInput" placeholder="Поиск объектов...">
+<button id="searchBtn">🔍</button>
+</div>
 
-<input
-  id="searchInput"
-  placeholder="Поиск объектов..."
-/>
-
-<button id="searchBtn">
-  🔍
-</button>
-
-<!-- ADMIN -->
-
-<button id="adminBtn">
-  ⚙
-</button>
+<button id="adminBtn">⚙</button>
 
 <div id="adminPanel">
 
-  <h3>ADMIN PANEL</h3>
+<h3>ADMIN PANEL</h3>
 
-  <button id="wipeBtn">
-    WIPE MAP
-  </button>
-
-</div>
-
-<!-- PLAY -->
-
-<button id="playBtn">
-  ▶ PLAY
+<button class="adminAction" id="wipeBtn">
+WIPE MAP
 </button>
 
-<!-- CLAN -->
+<button class="adminAction" id="giveMoneyBtn">
+GIVE MONEY
+</button>
 
-<div id="clanLabel">
-  КЛАН: NONE
+<button class="adminAction" id="transferBtn">
+TRANSFER TERRITORY
+</button>
+
 </div>
 
-<!-- LEADERBOARD -->
+<button id="playBtn">
+▶ PLAY
+</button>
+
+<div id="clanLabel">
+КЛАН: SP
+</div>
 
 <div id="leaderboard">
 
-  <h3>ТОП КЛАНОВ</h3>
+<h3>ТОП КЛАНОВ</h3>
 
-  <div id="leaderboardContent">
-
-    SP — 0
-
-  </div>
+<div id="leaderboardContent">
+loading...
+</div>
 
 </div>
 
@@ -274,4 +62,3 @@
 
 </body>
 </html>
-```
